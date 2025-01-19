@@ -1,0 +1,49 @@
+name: Playwright Cucumber Tests
+
+on:
+  schedule:
+    # This schedules the workflow to run at 2:00 AM UTC every day
+    - cron: '0 2 * * *'
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]  # Run tests across all supported browsers
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Node.js (and Playwright dependencies)
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # Use the version of Node.js that you need
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          npm install
+
+      # Step 4: Install Playwright browsers (for the selected browser)
+      - name: Install Playwright Browsers
+        run: |
+          npx playwright install --with-deps
+
+      # Step 5: Run Cucumber tests with Playwright
+      - name: Run Cucumber tests
+        run: |
+          npx cucumber-js  # Adjust this if your test script is different (e.g., npm run test:cucumber)
+
+      
+     
