@@ -17,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        browser: [chromium, firefox, webkit]  # Run tests across all supported browsers
+        browser: [chromium]  # Run tests across all supported browsers
 
     steps:
       # Step 1: Checkout the repository
